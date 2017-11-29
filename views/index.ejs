@@ -1,0 +1,274 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <meta name='description', content='课表'>
+    <meta name='author', content='曲奇先生'>
+    <title>登陆</title>
+    <link rel="stylesheet" href="/css/frozen.css">
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" type="text/css" href="//at.alicdn.com/t/font_485441_cvf88x6d9uc2qpvi.css">
+  </head>
+  <style>
+    html, body,.content{
+      height: 100%;
+      width: 100%;
+      padding: 0;
+      margin: 0;
+    }
+    .demo-block{
+      box-sizing: border-box;
+      padding:10px;
+    }
+    .ui-table{
+      font-size: 14px;
+    }
+    .w-9{
+      width: 9%;
+      padding:4px;
+    }
+    .w-13{
+      width: 13%;
+      line-height: 25px;
+      padding:4px;
+    }
+    .content{
+      width: 100%;
+    }
+    .slider-content {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      -webkit-transition: all ease 500ms;
+      transition: all ease 500ms;
+    }
+    .class-content,.add-content{
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      transform: translate(0%,0%);
+      text-align: center;
+       -webkit-transition: all ease 500ms;
+      transition: all ease 500ms;
+    }
+    .add{
+      left:100%;
+    }
+    .add-content{
+      position: absolute;
+      left:100%;
+      top:0;
+      width: 100%;
+      height: 100%;
+      -webkit-transition: all ease 500ms;
+      transition: all ease 500ms;
+      text-align: left;
+    }
+  </style>
+  <body>
+    <div class="content">
+      <div class="slider-content">
+        <div class="class-content">
+          <div class="demo-item">
+            <div class="demo-block">
+                <table class="ui-table ui-border">
+                    <thead>
+                    <tr>
+                      <th></th>
+                      <th>周一</th>
+                      <th>周二</th>
+                      <th>周三</th>
+                      <th>周四</th>
+                      <th>周五</th>
+                      <th>周六</th>
+                      <th>周天</th>
+                    </tr>
+                    </thead>
+                    <tbody class="tbody">
+                    <tr>
+                      <!-- <td class="w-9">8:20</td>
+                      <td class="w-13">C语言程序设计1</td>
+                      <td class="w-13">高等数学</td>
+                      <td class="w-13">大学英语1202</td>
+                      <td class="w-13">专业英语</td>
+                      <td class="w-13">C语言程序设计1</td>
+                      <td class="w-13">体育</td>
+                      <td class="w-13"></td> -->
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+      
+        <div class="add-content add">
+          <div class="form-title">
+          课表添加
+          </div>
+          <div class="ui-form ui-border-t">
+            <form action="#">
+                <div class="ui-form-item ui-form-item-show ui-border-b">
+                    <label for="#">课程名称</label>
+                    <input type="text" value="" id="name" placeholder="请输入课程名称">
+                </div>
+                <div class="ui-form-item ui-form-item-show ui-border-b">
+                    <label for="#">课程地址</label>
+                    <input type="text" value="" id="address" placeholder="请输入课程地址">
+                </div>
+            </form>
+          </div>
+
+          <div class="send-content mt-30">
+            <button class="ui-btn-lg ui-btn-primary" id="add">
+              确定
+            </button>
+            <button class="ui-btn-lg ui-btn-default cancel mt-30">
+              取消
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="iconfont icon-addition_fill">
+        
+      </div>
+    </div>
+  </body>
+  <script src="/js/lib/zepto.min.js"></script>
+  <script src="/js/frozen.js"></script>
+  <script src="/js/public.js"></script>
+  <script type="text/javascript">
+    var WEEK,TIME;
+    $(document).on("click",".do-left",function(){
+      //判断是登录还是注册
+      $(".slider-content").css({
+        "transform" : "translateX(-100%)"
+      });
+      WEEK = $(this).attr("data-week");
+      TIME = $(this).attr("data-time");
+      var name = $(this).attr("data-name")
+      var address = $(this).attr("data-address")
+      $("#name").val(name)
+      $("#address").val(address)
+    })
+
+    $(document).on("click",".cancel",function(){
+        $(".slider-content").css({
+          "transform" : "translateX(-0%)"
+        });
+    })
+
+    //获取课程信息
+    function getClassData(){
+      var url = "/v1/course";
+      var type = "GET";
+
+      var data = {
+      }
+
+      e1 = $.loading({
+        content:"正在加载"
+      });
+
+        sendQuery(url,type,data,{
+          success:function(result){
+            console.log(result);
+            var data = result.data;
+              e1.loading("hide");
+              tips("获取成功")
+              formateData(data);
+          },
+          error:function(error){
+            e1.loading("hide");
+            var message = error.message ? error.message : "获取失败"
+            tips(message,"","info")
+          }
+        })
+    }
+
+    getClassData()
+
+    function formateData(data){
+      var tbody = "";
+      for(var i = 0 ; i < 6;i++){
+        var tr = '';
+        switch(i){
+          case 0:
+            tr += '<td class="w-9">8:20</td>';
+            break;
+          case 1:
+            tr += '<td class="w-9">10:20</td>';
+            break;
+          case 2:
+            tr += '<td class="w-9">14:00</td>';
+            break;
+          case 3:
+            tr += '<td class="w-9">16:00</td>';
+            break;
+          case 4:
+            tr += '<td class="w-9">19:30</td>';
+            break;
+          case 5:
+            tr += '<td class="w-9">21:20</td>';
+            break;
+        }
+        for(var j = 1 ; j < 8;j++){
+          var exit = false;
+          for(var k = 0 ; k < data.length;k++){
+            if(data[k].week == j && data[k].time == i){
+              tr += '<td class="w-13 do-left" data-week="'+j+'" data-time="'+i+'" data-name="'+data[k].name+'" data-address="'+data[k].address+'">'+data[k].name+data[k].address+"</td>"
+              exit = true
+              break;
+            }
+          }
+          if(!exit){
+            tr += '<td class="w-13 do-left" data-week="'+j+'" data-time="'+i+'" data-name="" data-address="">添加</td>'
+          }
+        }
+        tbody += "<tr>"+tr+"</tr>";
+      }
+      console.log(tbody)
+      $(".tbody").empty().append(tbody);
+    }
+
+    $(document).on("click","#add",function(){
+        //获取所有表单数据
+        var name = $("#name").val()
+        var address = $("#address").val()
+
+        // var e1;
+        if(!name || !address || !TIME || !WEEK){
+          tips("缺少参数","","info")
+          return;
+        }
+
+        var url = "/v1/course";
+        var type = "POST";
+
+        var data = {
+          name:name,
+          address:address,
+          time:TIME,
+          week:WEEK
+        }
+
+        e1 = $.loading({
+          content:"正在添加"
+        });
+
+        sendQuery(url,type,data,{
+          success:function(result){
+            console.log(result);
+            var data = result.data;
+              e1.loading("hide");
+              tips("添加成功")
+              window.location.reload();
+            },
+          error:function(error){
+            e1.loading("hide");
+            var message = error.message ? error.message : "添加失败"
+            tips(message,"","info")
+          }
+        })
+    })
+  </script>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <meta name='description', content='课表'>
+    <meta name='author', content='曲奇先生'>
+    <title>登陆</title>
+    <link rel="stylesheet" href="/css/frozen.css">
+    <link rel="stylesheet" href="/css/common.css">
+  </head>
+  <style>
+  </style>
+  <body>
+    <div class="content">
+      <div class="form-title">
+        课表注册
+      </div>
+      <div class="ui-form ui-border-t">
+        <form action="#">
+            <div class="ui-form-item ui-form-item-show ui-border-b">
+                <label for="#">邮箱</label>
+                <input type="text" value="" id="email" placeholder="请输入邮箱">
+            </div>
+            <div class="ui-form-item ui-form-item-show ui-border-b">
+                <label for="#">密码</label>
+                <input type="text" value="" id="password" placeholder="请输入密码">
+            </div>
+        </form>
+        </form>
+      </div>
+
+      <div class="send-content mt-30">
+        <button class="ui-btn-lg ui-btn-primary" id="signup">
+          注册
+        </button>
+        <a class="signup" href="/login">立即登录</a>
+      </div>
+    </div>
+  </body>
+  <script src="/js/lib/zepto.min.js"></script>
+  <script src="/js/frozen.js"></script>
+  <script src="/js/public.js"></script>
+  <script type="text/javascript">
+    console.log("123")
+    var e1;
+    //提交表单
+    $(document).on("click","#signup",function(){
+        //获取所有表单数据
+        var email = $("#email").val()
+        var password = $("#password").val()
+
+        // var e1;
+        if(!email || !password){
+          tips("缺少参数","","info")
+          return;
+        }
+
+        console.log(email)
+        var url = "/v1/user";
+        var type = "POST";
+
+        var data = {
+          email:email,
+          password:password
+        }
+
+        e1 = $.loading({
+          content:"正在注册"
+        });
+
+        sendQuery(url,type,data,{
+          success:function(result){
+            console.log(result);
+            var data = result.data;
+              e1.loading("hide");
+              tips("登录成功")
+              window.location.href = "/";
+            },
+          error:function(error){
+            e1.loading("hide");
+            console.log(error)
+            var message = error.message ? error.message : "登录失败"
+            tips(message,"","info")
+          }
+        })
+    })
+  </script>
+</html>
