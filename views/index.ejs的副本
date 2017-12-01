@@ -1,0 +1,159 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <meta name='description', content='课表'>
+    <meta name='author', content='曲奇先生'>
+    <title>登陆</title>
+    <link rel="stylesheet" href="/css/frozen.css">
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" type="text/css" href="//at.alicdn.com/t/font_485441_cvf88x6d9uc2qpvi.css">
+  </head>
+  <style>
+    
+  </style>
+  <body>
+    <div class="content">
+      
+    </div>
+  </body>
+  <script src="/js/lib/zepto.min.js"></script>
+  <script src="/js/frozen.js"></script>
+  <script src="/js/public.js"></script>
+  <script type="text/javascript">
+    var WEEK,TIME;
+    $(document).on("click",".do-left",function(){
+      //判断是登录还是注册
+      $(".slider-content").css({
+        "transform" : "translateX(-100%)"
+      });
+      WEEK = $(this).attr("data-week");
+      TIME = $(this).attr("data-time");
+      var name = $(this).attr("data-name")
+      var address = $(this).attr("data-address")
+      $("#name").val(name)
+      $("#address").val(address)
+    })
+
+    $(document).on("click",".cancel",function(){
+        $(".slider-content").css({
+          "transform" : "translateX(-0%)"
+        });
+    })
+
+    //获取课程信息
+    function getClassData(){
+      var url = "/v1/course";
+      var type = "GET";
+
+      var data = {
+      }
+
+      e1 = $.loading({
+        content:"正在加载"
+      });
+
+        sendQuery(url,type,data,{
+          success:function(result){
+            console.log(result);
+            var data = result.data;
+              e1.loading("hide");
+              tips("获取成功")
+              formateData(data);
+          },
+          error:function(error){
+            e1.loading("hide");
+            var message = error.message ? error.message : "获取失败"
+            tips(message,"","info")
+          }
+        })
+    }
+
+    getClassData()
+
+    function formateData(data){
+      var tbody = "";
+      for(var i = 0 ; i < 6;i++){
+        var tr = '';
+        switch(i){
+          case 0:
+            tr += '<td class="w-9">8:20</td>';
+            break;
+          case 1:
+            tr += '<td class="w-9">10:20</td>';
+            break;
+          case 2:
+            tr += '<td class="w-9">14:00</td>';
+            break;
+          case 3:
+            tr += '<td class="w-9">16:00</td>';
+            break;
+          case 4:
+            tr += '<td class="w-9">19:30</td>';
+            break;
+          case 5:
+            tr += '<td class="w-9">21:20</td>';
+            break;
+        }
+        for(var j = 1 ; j < 8;j++){
+          var exit = false;
+          for(var k = 0 ; k < data.length;k++){
+            if(data[k].week == j && data[k].time == i){
+              tr += '<td class="w-13 do-left" data-week="'+j+'" data-time="'+i+'" data-name="'+data[k].name+'" data-address="'+data[k].address+'">'+data[k].name+data[k].address+"</td>"
+              exit = true
+              break;
+            }
+          }
+          if(!exit){
+            tr += '<td class="w-13 do-left" data-week="'+j+'" data-time="'+i+'" data-name="" data-address="">添加</td>'
+          }
+        }
+        tbody += "<tr>"+tr+"</tr>";
+      }
+      console.log(tbody)
+      $(".tbody").empty().append(tbody);
+    }
+
+    $(document).on("click","#add",function(){
+        //获取所有表单数据
+        var name = $("#name").val()
+        var address = $("#address").val()
+
+        // var e1;
+        if(!name || !address || !TIME || !WEEK){
+          tips("缺少参数","","info")
+          return;
+        }
+
+        var url = "/v1/course";
+        var type = "POST";
+
+        var data = {
+          name:name,
+          address:address,
+          time:TIME,
+          week:WEEK
+        }
+
+        e1 = $.loading({
+          content:"正在添加"
+        });
+
+        sendQuery(url,type,data,{
+          success:function(result){
+            console.log(result);
+            var data = result.data;
+              e1.loading("hide");
+              tips("添加成功")
+              window.location.reload();
+            },
+          error:function(error){
+            e1.loading("hide");
+            var message = error.message ? error.message : "添加失败"
+            tips(message,"","info")
+          }
+        })
+    })
+  </script>
+</html>

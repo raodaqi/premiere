@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>个人中心</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm.min.css">
+    <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm-extend.min.css">
+  </head>
+  <style type="text/css">
+    .item{
+      height: 240px;
+      position: relative;
+      margin-bottom: 20px;
+    }
+    .item-content{
+      height: 100%;
+    }
+    .desc-content{
+      position: absolute;
+      bottom:0;
+      color: white;
+      padding: 10px;
+      background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0) 55%, rgba(0, 0, 0, 0.2) 88%, rgba(0, 0, 0, 0.35) 97%);
+    }
+    .desc-title{
+      font-size: 28px;
+      padding: 5px 0;
+    }
+    .desc-text{
+      font-size: 16px;
+    }
+    .page{
+      overflow-x: hidden !important;
+      overflow-y: auto !important;
+      padding-bottom: 2.5rem;
+      padding-top: 2.2rem;
+    }
+    .bar{
+      position: fixed !important;
+    }
+    .user-content{
+      background: white;
+      padding: 10px;
+    }
+    .no-login{
+      height: 70px;
+    }
+    .no-login img{
+      width: 70px;
+      height: 70px; 
+      float: left;
+    }
+    .list-block{
+      margin: 20px 0;
+    }
+    .login-tip-content{
+      display: inline-block;
+      font-size: 12px;
+      color: #999;
+      margin:15px 10px;
+    }
+    .login-tip{
+      font-size: 16px;
+      color: #333;
+    }
+    .login-btn{
+      float: right;
+      width: 60px;
+      height: 25px;
+      text-align: center;
+      line-height: 25px;
+      border-radius: 25px;
+      font-size: 14px;
+      border:1px solid #0894ec;
+      color: #0894ec;
+      margin-top: 22px;
+      margin-right: 10px;
+    }
+  </style>
+  <body>
+    <div class="page">
+      <header class="bar bar-nav">
+          <h1 class='title'>个人中心</h1>
+      </header>
+
+      <nav class="bar bar-tab">
+        <a class="tab-item" href="/">
+          <span class="icon icon-home"></span>
+          <span class="tab-label">首映厅</span>
+        </a>
+        <a class="tab-item" href="/like">
+          <span class="icon icon-star"></span>
+          <span class="tab-label">想看</span>
+        </a>
+        <a class="tab-item active" href="#">
+          <span class="icon icon-me"></span>
+          <span class="tab-label">我</span>
+        </a>
+      </nav>
+      <div class="content">
+        <!-- 这里是页面内容区 -->
+        <div class="user-content">
+          <div class="no-login" data-href="/login">
+            <img src="/img/login.png" class="" alt="">
+
+            <div class="login-tip-content">
+              <div class="login-tip">
+                点击登录
+              </div>
+              <div class="">
+                登录后可查看收藏记录
+              </div>
+            </div>
+
+            <div class="login-btn">
+              登录
+            </div>
+          </div>
+
+          <div class="login">
+            
+          </div>
+        </div>
+
+        <div class="list-block">
+          <ul>
+            <li class="item-content item-link" data-href="/upload">
+              <div class="item-media"><i class="icon icon-f7"></i></div>
+              <div class="item-inner">
+                <div class="item-title">上传电影</div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      
+        <div class="list-block">
+          <ul>
+            <li class="item-content item-link">
+              <div class="item-media"><i class="icon icon-f7"></i></div>
+              <div class="item-inner">
+                <div class="item-title">想看列表</div>
+              </div>
+            </li>
+            <li class="item-content item-link">
+              <div class="item-media"><i class="icon icon-f7"></i></div>
+              <div class="item-inner">
+                <div class="item-title">意见反馈</div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <script type='text/javascript' src='//g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
+    <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm.min.js' charset='utf-8'></script>
+    <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm-extend.min.js' charset='utf-8'></script>
+
+    <!-- 默认必须要执行$.init(),实际业务里一般不会在HTML文档里执行，通常是在业务页面代码的最后执行 -->
+    <script>
+      $.init()
+      $(".item-link,.no-login").on("click",function(){
+        var href = $(this).attr("data-href");
+        console.log(href)
+        window.location.href = href
+      })
+    </script>
+
+  </body>
+</html>

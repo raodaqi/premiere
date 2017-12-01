@@ -24,7 +24,7 @@ app.set('view engine', 'ejs');
 app.use(express.static('public'));
 
 // 设置默认超时时间
-app.use(timeout('15s'));
+app.use(timeout('30s'));
 
 // 加载云引擎中间件
 app.use(AV.express());
@@ -39,13 +39,26 @@ app.use(cookieParser());
 
 app.get('/', function(req, res) {
   var user = req.currentUser;
-  console.log(user)
-  if(!user){
-    res.redirect("/login")
-    return;
-  }
+  // console.log(user)
+  // if(!user){
+  //   res.redirect("/login")
+  //   return;
+  // }
   res.render('index', { user: user});
 });
+app.get('/like', function(req, res) {
+  res.render('like', { currentTime: new Date() });
+});
+app.get('/me', function(req, res) {
+  res.render('me', { currentTime: new Date() });
+});
+app.get('/detail', function(req, res) {
+  res.render('detail', { currentTime: new Date() });
+});
+app.get('/upload', function(req, res) {
+  res.render('upload', { currentTime: new Date() });
+});
+
 app.get('/login', function(req, res) {
   res.render('login', { currentTime: new Date() });
 });

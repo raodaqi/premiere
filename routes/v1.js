@@ -3,9 +3,15 @@ var router = require('express').Router();
 var AV = require('leanengine');
 
 var Course = AV.Object.extend('Course');
+var Movies = AV.Object.extend('Movies');
 
 var date = new Date()
 console.log(date)
+var fs = require('fs');
+
+
+var multipart = require('connect-multiparty');
+var multipartMiddleware = multipart();
 
 function validate(res,req,data){
   for(var i in data){
@@ -208,6 +214,71 @@ router.post('/course', function(req, res, next) {
       }
   }).catch(next);
 });
+
+function saveFile(i,fileArray,filePartData,callback){
+    if(i >= fileArray.length){//判断是否是最后一个文件
+      return callback.success(filePartData);//返回成功上传
+    }
+    var fileData = fileArray[i];//获取一个文件信息
+    fs.readFile(fileData.path, function(err, data){//读取文件
+          if(err){//读取失败判断
+        var data = "读取文件失败";
+        return callback.error(data);//返回读取失败
+      }
+          var base64Data = data.toString('base64');//将文件转为base64
+          var theFile = new AV.File(fileData.name, {base64: base64Data});//新建文件信息
+          theFile.save().then(function(theFileData){//保存文件信息
+            var url = theFileData.attributes.url;//获取成功保存后的文件链接
+        filePartData[fileData.fieldName] = url;//将文件name保存到数据
+        saveFile(i+1,fileArray,filePartData,callback);//递归代用该方法
+          },function(error){
+        console.log(error);
+        return callback.error(data);//返回保存失败
+      });
+    });
+}
+
+router.post('/movie/add',multipartMiddleware,function(req, res, next) {
+  console.log(req.files)
+  var photo = req.files.photo;
+  console.log(req)
+  var url;
+
+  var title = req.body.title
+  var recommend = req.body.recommend
+  var desc = req.body.desc
+
+  fs.readFile(photo.path, function(err, data){
+    if(err)
+    return res.send("读取文件失败");
+    var base64Data = data.toString('base64');
+    var theFile = new AV.File(photo.name, {base64: base64Data});
+    theFile.save().then(function(theFile){
+      url = theFile.url();
+      console.log(theFile.url());
+      var movie = new Movies();
+      movie.set("title",title);
+      movie.set("recommend",recommend);
+      movie.set("desc",desc);
+      movie.set("url",url);
+      movie.save().then(function (addResult) {
+        var result = {
+          code : 200,
+          data : addResult,
+          message : '保存成功'
+        }
+        res.send(result);
+      }, function (error) {
+        console.log(error)
+        var result = {
+          code : 500,
+          message : '保存出错'
+        }
+        res.send(result);
+      });
+    });
+  });
+})
 
 router.get('/', function(req, res) {
   res.render('index', { currentTime: new Date() });
