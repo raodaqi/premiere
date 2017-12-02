@@ -112,9 +112,11 @@
             <div class="card-content">
               <div class="item">
                 <div class="item-content photo-content" data-src="" style="background: url(https://pic7.huanxi.com/8a9eb00f6000c071016000dd38f400cf.jpg) center center / cover no-repeat;">
+                  <% if(!id){ %>
                   <div class="dialog addpho">
                     点击上传图片
                   </div>
+                  <% } %>
                 </div>
               </div>
             </div>
@@ -138,19 +140,28 @@
             </div>
           </div>
 
-          <div class="content-block-title">简介</div>
+          <!-- <div class="content-block-title">简介</div>
           <div class="card">
             <div class="card-content">
               <div class="card-content-inner">
                 <textarea name="desc" id="desc" placeholder="请输入介绍"></textarea>
               </div>
             </div>
-          </div>
-           <div class="content-block">
+          </div> -->
+            <% if(!id){ %>
+            <div class="content-block">
               <div class="row">
                 <div class="col-100"><a href="#" class="button button-big button-fill button-danger sure">确定</a></div>
               </div>
             </div>
+            <%} else {%>
+            <div class="content-block">
+              <div class="row">
+                <div class="col-50"><a href="#" class="button button-big button-fill button-success update">更改</a></div>
+                <div class="col-50"><a href="#" class="button button-big button-fill button-danger delete">删除</a></div>
+              </div>
+            </div>
+            <%}%>
         </div>
       </form>
     </div>
@@ -158,10 +169,12 @@
     <script type='text/javascript' src='//g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
     <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm.min.js' charset='utf-8'></script>
     <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm-extend.min.js' charset='utf-8'></script>
-
+    <script src="/js/public.js"></script>
     <!-- 默认必须要执行$.init(),实际业务里一般不会在HTML文档里执行，通常是在业务页面代码的最后执行 -->
     <script>
       $.init()
+      var id = "<%= id %>";
+
       function preview(file) {
         console.log($(file));
         var that = file;
@@ -180,7 +193,7 @@
         $("#photo").click();
       })
 
-      $(".sure").on("click",function(){
+      $(".sure,.update").on("click",function(){
 
         var url = $(".photo-content").attr("data-src");
         var title = $("#title").val()
@@ -201,6 +214,32 @@
           return;
         }
 
+        if(id){
+          //更改
+          $.showPreloader("正在更改");
+
+          var data  = {
+            title : title,
+            recommend:recommend
+          }
+
+          $.ajax({
+             type: "PUT",
+             url: 'v1/movie/'+id,
+             cache: false,
+             data: data,
+             success : function(result) {
+                $.hidePreloader();
+                $.toast("更改成功");
+                window.location.reload()
+             },
+             error:function(error){
+                $.hidePreloader();
+                $.toast("更改失败");
+             }
+         })
+          return;
+        }
 
         $.showPreloader("正在上传");
         $.ajax({
@@ -213,12 +252,65 @@
            success : function(result) {
               $.hidePreloader();
               $.toast("上传成功");
+              window.location.reload()
            },
            error:function(error){
               $.hidePreloader();
               $.toast("上传失败");
            }
        })
+      })
+      // alert(id)
+
+      function getDetail(){
+        
+        $.showPreloader("正在加载");
+        var url = "/v1/movie/"+id;
+        var type = "GET";
+        var data = {
+        }
+        sendQuery(url,type,data,{
+          success:function(result){
+            console.log(result);
+            var data = result.data
+            $(".photo-content").attr("data-src",data.url);
+            $("#title").val(data.title)
+            $("#recommend").val(data.recommend)
+            $(".item-content").attr("style","background: url("+data.url+") center center / cover no-repeat;")
+            $.hidePreloader();
+          },
+          error:function(error){
+            $.toast("请求失败");
+          }
+        })
+      }
+
+      if(id){
+        getDetail()
+      }
+
+      $(".delete").on("click",function(){
+        $.confirm('真的要删除吗?',
+          function () {
+            $.showPreloader("正在删除");
+            var url = "/v1/movie/"+id;
+            var type = "DELETE";
+            var data = {
+            }
+            sendQuery(url,type,data,{
+              success:function(result){
+                console.log(result);
+                $.toast("删除成功");
+                window.location.href = "/"
+              },
+              error:function(error){
+                $.toast("删除失败");
+              }
+            })
+          },
+          function () {
+          }
+        );
       })
 
     </script>

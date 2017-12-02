@@ -50,13 +50,20 @@ app.get('/like', function(req, res) {
   res.render('like', { currentTime: new Date() });
 });
 app.get('/me', function(req, res) {
-  res.render('me', { currentTime: new Date() });
+  var user = req.currentUser ? req.currentUser : '';
+  console.log(user)
+  res.render('me', { user: user });
 });
 app.get('/detail', function(req, res) {
   res.render('detail', { currentTime: new Date() });
 });
 app.get('/upload', function(req, res) {
-  res.render('upload', { currentTime: new Date() });
+  var id = req.query.id ? req.query.id : ""
+  res.render('upload', { id : id });
+});
+
+app.get('/uploaded', function(req, res) {
+  res.render('uploaded', { currentTime: new Date() });
 });
 
 app.get('/login', function(req, res) {

@@ -25,7 +25,7 @@ function tips(content,time,type){
         }
       },
       error:function(error){
-        tips("服务器出错","","info")
+        // tips("服务器出错","","info")
         callback.error(error);
       }
     })

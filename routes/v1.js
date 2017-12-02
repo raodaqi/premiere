@@ -56,7 +56,7 @@ router.post('/user', function(req, res, next) {
   user.signUp().then(function (loginedUser) {
     var result = {
       code  : 200,
-      data  : addResult,
+      data  : loginedUser,
       message : '注册成功'
     }
     res.saveCurrentUser(loginedUser);
@@ -70,6 +70,17 @@ router.post('/user', function(req, res, next) {
     }
     res.send(result);
   }).catch(next);
+});
+
+// 创建用户
+router.get('/user/quit', function(req, res, next) {
+  req.currentUser.logOut();
+  res.clearCurrentUser();
+  var result = {
+    code : 200,
+    message : '登出成功'
+  }
+  res.send(result);
 });
 
 //登陆
@@ -96,18 +107,115 @@ router.get('/user', function(req, res, next) {
   }).catch(next);
 });
 
-router.get('/course', function(req, res, next) {
+router.get('/movie', function(req, res, next) {
+  // var user = req.currentUser;
+  // console.log(user)
+  // if(!user){
+  //   res.redirect("/login")
+  //   return;
+  // }
+
+  var query = new AV.Query(Movies);
+  query.equalTo("status",1)
+
+  query.find().then(function(results) {
+    var result = {
+      code : 200,
+      data : results,
+      message : "success"
+    }
+    res.send(result);
+  }, function(err) {
+      if (err.code === 101) {
+      //判断是否存在
+        var result = {
+            code : 200,
+            data : [],
+            message : "success"
+        }
+        res.send(result);
+      } else {
+        next(err);
+      }
+  }).catch(next);
+});
+
+router.get('/movie/:id', function(req, res, next) {
+  var id = req.params.id;
+
+  var query = new AV.Query(Movies);
+  query.get(id).then(function(result){
+    // 删除成功
+    var result = {
+        code : 200,
+        data : result,
+        message : '获取成功'
+    }
+    res.send(result);
+  }, function(error) {
+    res.send(error);
+  }).catch(next);
+});
+
+router.delete('/movie/:id', function(req, res, next) {
+  var id = req.params.id;
+
+  var editObj = AV.Object.createWithoutData('Movies', id);
+  editObj.set("status",0);
+  editObj.save().then(function (editResult) {
+    var result = {
+        code : 200,
+        data : editResult,
+        message : 'success'
+    }
+    res.send(result);
+  }, function (error) {
+    var result = {
+        code : 500,
+        message : '保存出错'
+    }
+    res.send(result);
+  }).catch(next);
+});
+
+router.put('/movie/:id',multipartMiddleware,function(req, res, next) {
   var user = req.currentUser;
-  console.log(user)
-  if(!user){
-    res.redirect("/login")
-    return;
-  }
+  console.log(user.get("username"))
+  var userId = user.get("username");
 
-  console.log(user["id"])
+  var title = req.body.title
+  var recommend = req.body.recommend
+  var desc = req.body.desc
+  var id = req.params.id;
+  var movie = AV.Object.createWithoutData('Movies', id);
+  movie.set("title",title);
+  movie.set("recommend",recommend);
+  movie.set("status",1)
+  movie.save().then(function (addResult) {
+    var result = {
+      code : 200,
+      data : addResult,
+      message : '保存成功'
+    }
+    res.send(result);
+  }, function (error) {
+    console.log(error)
+    var result = {
+      code : 500,
+      message : '保存出错'
+    }
+    res.send(result);
+  });
+})
 
-  var query = new AV.Query(Course);
-  query.equalTo('userid',user["id"]);
+router.get('/user/movie', function(req, res, next) {
+  var user = req.currentUser;
+  console.log(user.get("username"))
+  var username = user.get("username");
+
+  var query = new AV.Query(Movies);
+  query.equalTo("userId",username);
+  query.equalTo("status",1)
 
   query.find().then(function(results) {
     var result = {
@@ -243,6 +351,9 @@ router.post('/movie/add',multipartMiddleware,function(req, res, next) {
   var photo = req.files.photo;
   console.log(req)
   var url;
+  var user = req.currentUser;
+  console.log(user.get("username"))
+  var userId = user.get("username");
 
   var title = req.body.title
   var recommend = req.body.recommend
@@ -259,8 +370,9 @@ router.post('/movie/add',multipartMiddleware,function(req, res, next) {
       var movie = new Movies();
       movie.set("title",title);
       movie.set("recommend",recommend);
-      movie.set("desc",desc);
       movie.set("url",url);
+      movie.set("userId",userId)
+      movie.set("status",1)
       movie.save().then(function (addResult) {
         var result = {
           code : 200,

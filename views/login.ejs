@@ -5,14 +5,14 @@
     <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
     <meta name='description', content='课表'>
     <meta name='author', content='曲奇先生'>
-    <title>登陆</title>
+    <title>登录</title>
     <link rel="stylesheet" href="/css/frozen.css">
     <link rel="stylesheet" href="/css/common.css">
   </head>
   <body>
     <div class="content">
       <div class="form-title">
-        课表登录
+        登录
       </div>
       <div class="ui-form ui-border-t">
         <form action="#">
@@ -72,7 +72,7 @@
             var data = result.data;
               e1.loading("hide");
               tips("登录成功")
-              window.location.href = "/";
+              window.location.href = "/me";
             },
           error:function(error){
             e1.loading("hide");
