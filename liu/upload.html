@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>上传电影</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="http://g.alicdn.com/msui/sm/0.6.2/css/sm.min.css">
+    <link rel="stylesheet" href="http://g.alicdn.com/msui/sm/0.6.2/css/sm-extend.min.css">
+  </head>
+  <style type="text/css">
+    .item{
+      height: 240px;
+      position: relative;
+      margin-bottom: 20px;
+    }
+    .item-content{
+      height: 100%;
+    }
+    .desc-content{
+      position: absolute;
+      bottom:0;
+      color: white;
+      padding: 10px;
+      background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0) 55%, rgba(0, 0, 0, 0.2) 88%, rgba(0, 0, 0, 0.35) 97%);
+    }
+    .desc-title{
+      font-size: 28px;
+      padding: 5px 0;
+    }
+    .desc-text{
+      font-size: 16px;
+    }
+    .page{
+      overflow-x: hidden !important;
+      overflow-y: auto !important;
+      padding-bottom: 2.5rem;
+      padding-top: 2.2rem;
+    }
+    .bar{
+      position: fixed !important;
+    }
+    .user-content{
+      background: white;
+      padding: 10px;
+    }
+    .no-login{
+      height: 70px;
+    }
+    .no-login img{
+      width: 70px;
+      height: 70px; 
+      float: left;
+    }
+    .list-block{
+      margin: 20px 0;
+    }
+    .login-tip-content{
+      display: inline-block;
+      font-size: 12px;
+      color: #999;
+      margin:15px 10px;
+    }
+    .login-tip{
+      font-size: 16px;
+      color: #333;
+    }
+    .login-btn{
+      float: right;
+      width: 60px;
+      height: 25px;
+      text-align: center;
+      line-height: 25px;
+      border-radius: 25px;
+      font-size: 14px;
+      border:1px solid #0894ec;
+      color: #0894ec;
+      margin-top: 22px;
+      margin-right: 10px;
+    }
+    .content-block-title{
+      margin: .75rem .75rem .5rem;
+    }
+    .dialog{
+      height: 100%;
+      width: 100%;
+      background: rgba(0,0,0,0.5);
+      text-align: center;
+      line-height: 240px;
+      color: white;
+    }
+    .update-content{
+      display: none;
+    }
+
+    .card-content-inner input{
+      border:0;
+    }
+  </style>
+  <body>
+    <div class="page">
+      <header class="bar bar-nav">
+        <a class="button button-link button-nav pull-left back" href="/docs-demos/router">
+          <span class="icon icon-left"></span>
+          返回
+        </a>
+        <h1 class='title'>上传电影</h1>
+      </header>
+
+      <div class="content">
+        <!-- 这里是页面内容区 -->
+        <form action="" id="addForm" enctype="multipart/form-data">
+          <input type="file"  class="form-control" name="photo" id="photo" placeholder="请添加图片" onchange="preview(this)" style="display:none">
+          <div class="content-block-title">图片</div>
+          <div class="card">
+            <div class="card-content">
+              <div class="item">
+                <div class="item-content photo-content" data-src="" style="background: url(http://pic7.huanxi.com/8a9eb00f6000c071016000dd38f400cf.jpg) center center / cover no-repeat;">
+                  <!-- <% if(!id){ %> -->
+                  <div class="dialog addpho">
+                    点击上传图片
+                  </div>
+                  <!-- <% } %> -->
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="content-block-title">标题</div>
+          <div class="card">
+            <div class="card-content">
+              <div class="card-content-inner">
+                <input type="" name="title" id="title" placeholder="请输入标题">
+              </div>
+            </div>
+          </div>
+
+          <div class="content-block-title">推荐</div>
+          <div class="card">
+            <div class="card-content">
+              <div class="card-content-inner">
+                <input type="" name="recommend" id="recommend" placeholder="请输入推荐语">
+              </div>
+            </div>
+          </div>
+
+          <input type="" name="userId" id="userId" placeholder="用户id" style="display: none">
+
+          <!-- <div class="content-block-title">简介</div>
+          <div class="card">
+            <div class="card-content">
+              <div class="card-content-inner">
+                <textarea name="desc" id="desc" placeholder="请输入介绍"></textarea>
+              </div>
+            </div>
+          </div> -->
+            <!-- <% if(!id){ %> -->
+            <div class="content-block create-content">
+              <div class="row">
+                <div class="col-100"><a href="#" class="button button-big button-fill button-danger sure">确定</a></div>
+              </div>
+            </div>
+            <!-- <%} else {%> -->
+            <div class="content-block update-content">
+              <div class="row">
+                <div class="col-50"><a href="#" class="button button-big button-fill button-success update">更改</a></div>
+                <div class="col-50"><a href="#" class="button button-big button-fill button-danger delete">删除</a></div>
+              </div>
+            </div>
+            <!-- <%}%> -->
+        </div>
+      </form>
+    </div>
+
+    <script type='text/javascript' src='http://g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
+    <script type='text/javascript' src='http://g.alicdn.com/msui/sm/0.6.2/js/sm.min.js' charset='utf-8'></script>
+    <script type='text/javascript' src='http://g.alicdn.com/msui/sm/0.6.2/js/sm-extend.min.js' charset='utf-8'></script>
+    <script src="./js/public.js"></script>
+    <!-- 默认必须要执行$.init(),实际业务里一般不会在HTML文档里执行，通常是在业务页面代码的最后执行 -->
+    <script>
+      $.init()
+      function getQueryString(name) { 
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i"); 
+        var r = window.location.search.substr(1).match(reg); 
+        if (r != null) return unescape(r[2]); return null; 
+      }
+      var id = getQueryString("id"); 
+
+      // console.log(getQueryString("id"))
+
+      function preview(file) {
+        console.log($(file));
+        var that = file;
+        console.log(file.files[0]);
+          if (file.files && file.files[0]) {
+              var reader = new FileReader();
+              reader.onload = function(evt) {
+                  http:// $(that).parent().find(".addpho").attr("src",evt.target.result);
+                  $(".item-content").attr("style","background: url("+evt.target.result+") center center / cover no-repeat;")
+                  $(".photo-content").attr("data-src",evt.target.result);
+              }
+              reader.readAsDataURL(file.files[0]);
+          }
+      }
+      $(".addpho").on("click",function(){
+        $("#photo").click();
+      })
+
+
+      var username = localStorage.username;
+      console.log(username)
+
+      if(username){
+        $("#userId").val(username)
+      }
+
+      $(".sure,.update").on("click",function(){
+
+        var url = $(".photo-content").attr("data-src");
+        var title = $("#title").val()
+        var recommend = $("#recommend").val()
+        var desc = $("#desc").val()
+
+        console.log(url)
+        if(!url){
+          $.toast("缺少图片");
+          return;
+        }
+        if(!title){
+          $.toast("缺少标题");
+          return;
+        }
+        if(!recommend){
+          $.toast("缺少推荐");
+          return;
+        }
+
+        if(id){
+          http://更改
+          $.showPreloader("正在更改");
+
+          var data  = {
+            title : title,
+            recommend:recommend
+          }
+
+          $.ajax({
+             type: "PUT",
+             url: 'http://premiere.leanapp.cn/v1/movie/'+id,
+             cache: false,
+             data: data,
+             success : function(result) {
+                $.hidePreloader();
+                $.toast("更改成功");
+                // window.location.reload()
+                setTimeout(function(){
+                  window.location.reload()
+                },500)
+             },
+             error:function(error){
+                $.hidePreloader();
+                $.toast("更改失败");
+             }
+         })
+          return;
+        }
+
+        $.showPreloader("正在上传");
+        $.ajax({
+           type: "POST",
+           url: 'http://premiere.leanapp.cn/v1/movie/add',
+           cache: false,
+           data: new FormData($('#addForm')[0]),
+           processData: false,
+           contentType: false,
+           success : function(result) {
+              $.hidePreloader();
+              $.toast("上传成功");
+
+              setTimeout(function(){
+                window.location.reload()
+              },500)
+           },
+           error:function(error){
+              $.hidePreloader();
+              $.toast("上传失败");
+           }
+       })
+      })
+      http:// alert(id)
+
+      function getDetail(){
+        
+        $.showPreloader("正在加载");
+        var url = "http://premiere.leanapp.cn/v1/movie/"+id;
+        var type = "GET";
+        var data = {
+        }
+        sendQuery(url,type,data,{
+          success:function(result){
+            console.log(result);
+            var data = result.data
+            $(".photo-content").attr("data-src",data.url);
+            $("#title").val(data.title)
+            $("#recommend").val(data.recommend)
+            $(".item-content").attr("style","background: url("+data.url+") center center / cover no-repeat;")
+            $.hidePreloader();
+          },
+          error:function(error){
+            $.toast("请求失败");
+          }
+        })
+      }
+
+      if(id){
+        getDetail()
+        $(".update-content").show()
+        $(".create-content").hide()
+      }
+
+      $(".delete").on("click",function(){
+        $.confirm('真的要删除吗?',
+          function () {
+            $.showPreloader("正在删除");
+            var url = "http://premiere.leanapp.cn/v1/movie/"+id;
+            var type = "DELETE";
+            var data = {
+            }
+            sendQuery(url,type,data,{
+              success:function(result){
+                console.log(result);
+                $.toast("删除成功");
+                // window.location.href = "/"
+                setTimeout(function(){
+                  // window.location.reload()
+                  window.location.href = "./index.html"
+                },500)
+              },
+              error:function(error){
+                $.toast("删除失败");
+              }
+            })
+          },
+          function () {
+          }
+        );
+      })
+
+    </script>
+
+  </body>
+</html>

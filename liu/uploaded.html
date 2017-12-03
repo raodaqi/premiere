@@ -42,81 +42,38 @@
     .bar{
       position: fixed !important;
     }
-    .content{
-      margin-top: -2.2rem;
+    .media-list{
+      margin-top: 0;
     }
-
-
-    .item{
-      width: 33.3%;
-      box-sizing: border-box;
-      float: left;
-      padding: 0 5px;
-    }
-
-    .desc-title{
-      font-size: 20px;
-    }
-
-    .desc-text{
-      font-size: 12px;
-    }
-
-    .item{
-      height: 200px;
-    }
-
-    .desc-text{
-      overflow:hidden;
-      text-overflow:ellipsis;
-      display:-webkit-box;
-      -webkit-line-clamp:2;
-      -webkit-box-orient:vertical;
-      box-sizing:border-box;
+    .no-data{
+      text-align: center;
+      margin-top: 40px;
+      color: #949494;
+      font-size: 15px;
+      background-color: #efeff4
     }
   </style>
   <body>
     <div class="page">
+      <header class="bar bar-nav">
+        <a class="button button-link button-nav pull-left back" href="/docs-demos/router">
+          <span class="icon icon-left"></span>
+          返回
+        </a>
+        <h1 class='title'>已上传</h1>
+      </header>
 
-      <nav class="bar bar-tab">
-        <a class="tab-item active" href="#">
-          <span class="icon icon-home"></span>
-          <span class="tab-label">首映厅</span>
-        </a>
-        <!-- <a class="tab-item" href="/like">
-          <span class="icon icon-star"></span>
-          <span class="tab-label">想看</span>
-        </a> -->
-        <a class="tab-item" href="./me.html">
-          <span class="icon icon-me"></span>
-          <span class="tab-label">我</span>
-        </a>
-      </nav>
       <div class="content pull-to-refresh-content" data-ptr-distance="55">
         <!-- 这里是页面内容区 -->
-        <div class="page-content">
-          <!-- 默认的下拉刷新层 -->
-          <div class="pull-to-refresh-layer">
-              <div class="preloader"></div>
-              <div class="pull-to-refresh-arrow"></div>
-          </div>
-          <div class="item-content">
-            <!-- <div class="item">
-              <div class="item-content" style="background: url(https:http://pic1.huanxi.com/8a9eb00f6000c0710160101f7af40641.jpg) center center / cover no-repeat;">
-                <div class="desc-content">
-                  <div class="desc-title">
-                    狼图腾
-                  </div>
-                  <div class="desc-text">
-                    苍穹之下人狼共舞，自然本残酷，生命本质朴
-                  </div>
-                </div>
-              </div>
-            </div> -->
+        <!-- 默认的下拉刷新层 -->
+        <div class="pull-to-refresh-layer">
+          <div class="preloader"></div>
+          <div class="pull-to-refresh-arrow"></div>
+        </div>
+        <div class="list-block media-list">
+          <!-- <ul class="movie-content">
 
-          </div>
-          
-
+          </ul> -->
         </div>
       </div>
     </div>
@@ -129,13 +86,15 @@
     <!-- 默认必须要执行$.init(),实际业务里一般不会在HTML文档里执行，通常是在业务页面代码的最后执行 -->
     <script>
       $.init()
-
       function getList(){
-
         $.pullToRefreshTrigger('.pull-to-refresh-content')
-        var url = "http://premiere.leanapp.cn/v1/movie";
+        var url = "http://premiere.leanapp.cn/v1/user/movie";
         var type = "GET";
+        var username = localStorage.username;
+        console.log(username)
+
         var data = {
+          userId:username
         }
         sendQuery(url,type,data,{
           success:function(result){
@@ -144,9 +103,15 @@
             let movieList = [];
             var movie = '';
             for(let i = 0; i < data.length; i++){
-              movie += '<div class="item"><div class="item-content" style="background: url('+data[i].url+') center center / cover no-repeat;"><div class="desc-content"><div class="desc-title">'+data[i].title+'</div><div class="desc-text">'+data[i].recommend+'</div></div></div></div>';
+
+              movie += '<li data-id="'+data[i].objectId+'"><div class="item-content"><div class="item-media"><img src="'+data[i].url+'" style="width: 2.2rem;"></div><div class="item-inner"><div class="item-title-row"><div class="item-title">'+data[i].title+'</div></div><div class="item-subtitle">'+data[i].recommend+'</div></div></div></li>';
             }
-            $(".item-content").empty().append(movie)
+            if(!movie){
+              movie = '<div class="no-data">暂无数据</div>'
+            }else{
+              movie = '<ul class="movie-content">'+movie+"</ul>"
+            }
+            $(".list-block").empty().append(movie)
             $.pullToRefreshDone('.pull-to-refresh-content');
           },
           error:function(error){
@@ -156,11 +121,16 @@
       }
       getList();
 
-      http:// 添加'refresh'监听器
+      // 添加'refresh'监听器
       $(document).on('refresh', '.pull-to-refresh-content',function(e) {
-          http:// 模拟2s的加载过程
+          // 模拟2s的加载过程
           getList();
       });
+
+      $(document).on("click","li",function(){
+        var id = $(this).attr("data-id");
+        window.location.href="./upload.html?id="+id
+      })
     </script>
 
   </body>
