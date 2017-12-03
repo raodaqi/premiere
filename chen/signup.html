@@ -6,8 +6,8 @@
     <meta name='description', content='课表'>
     <meta name='author', content='曲奇先生'>
     <title>注册</title>
-    <link rel="stylesheet" href="/css/frozen.css">
-    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="./css/frozen.css">
+    <link rel="stylesheet" href="./css/common.css">
   </head>
   <style>
   </style>
@@ -34,13 +34,13 @@
         <button class="ui-btn-lg ui-btn-primary" id="signup">
           注册
         </button>
-        <a class="signup" href="/login">立即登录</a>
+        <a class="signup" href="./login.html">立即登录</a>
       </div>
     </div>
   </body>
-  <script src="/js/lib/zepto.min.js"></script>
-  <script src="/js/frozen.js"></script>
-  <script src="/js/public.js"></script>
+  <script src="./js/lib/zepto.min.js"></script>
+  <script src="./js/frozen.js"></script>
+  <script src="./js/public.js"></script>
   <script type="text/javascript">
     console.log("123")
     var e1;
@@ -75,7 +75,7 @@
             var data = result.data;
               e1.loading("hide");
               tips("登录成功")
-              window.location.href = "/me";
+              window.location.href = "./me.html";
             },
           error:function(error){
             e1.loading("hide");

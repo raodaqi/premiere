@@ -6,8 +6,8 @@
     <meta name='description', content='课表'>
     <meta name='author', content='曲奇先生'>
     <title>登录</title>
-    <link rel="stylesheet" href="/css/frozen.css">
-    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="./css/frozen.css">
+    <link rel="stylesheet" href="./css/common.css">
   </head>
   <body>
     <div class="content">
@@ -31,13 +31,13 @@
         <button class="ui-btn-lg ui-btn-primary" id="login">
           登录
         </button>
-        <a class="signup" href="/signup">立即注册</a>
+        <a class="signup" href="./signup.html">立即注册</a>
       </div>
     </div>
   </body>
-  <script src="/js/lib/zepto.min.js"></script>
-  <script src="/js/frozen.js"></script>
-  <script src="/js/public.js"></script>
+  <script src="./js/lib/zepto.min.js"></script>
+  <script src="./js/frozen.js"></script>
+  <script src="./js/public.js"></script>
   <script type="text/javascript">
     console.log("123")
     var e1;
@@ -54,7 +54,7 @@
         }
 
         console.log(email)
-        var url = "/v1/user";
+        var url = "http://premiere.leanapp.cn/v1/user";
         var type = "GET";
 
         var data = {
@@ -72,7 +72,9 @@
             var data = result.data;
               e1.loading("hide");
               tips("登录成功")
-              window.location.href = "/me";
+              //本地缓存
+              localStorage.username=data.username;
+              window.location.href = "./me.html";
             },
           error:function(error){
             e1.loading("hide");

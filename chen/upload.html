@@ -8,8 +8,8 @@
     <link rel="shortcut icon" href="/favicon.ico">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm.min.css">
-    <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm-extend.min.css">
+    <link rel="stylesheet" href="http://g.alicdn.com/msui/sm/0.6.2/css/sm.min.css">
+    <link rel="stylesheet" href="http://g.alicdn.com/msui/sm/0.6.2/css/sm-extend.min.css">
   </head>
   <style type="text/css">
     .item{
@@ -92,6 +92,9 @@
       line-height: 240px;
       color: white;
     }
+    .update-content{
+      display: none;
+    }
   </style>
   <body>
     <div class="page">
@@ -111,12 +114,12 @@
           <div class="card">
             <div class="card-content">
               <div class="item">
-                <div class="item-content photo-content" data-src="" style="background: url(https://pic7.huanxi.com/8a9eb00f6000c071016000dd38f400cf.jpg) center center / cover no-repeat;">
-                  <% if(!id){ %>
+                <div class="item-content photo-content" data-src="" style="background: url(http://pic7.huanxi.com/8a9eb00f6000c071016000dd38f400cf.jpg) center center / cover no-repeat;">
+                  <!-- <% if(!id){ %> -->
                   <div class="dialog addpho">
                     点击上传图片
                   </div>
-                  <% } %>
+                  <!-- <% } %> -->
                 </div>
               </div>
             </div>
@@ -140,6 +143,8 @@
             </div>
           </div>
 
+          <input type="" name="userId" id="userId" placeholder="用户id" style="display: none">
+
           <!-- <div class="content-block-title">简介</div>
           <div class="card">
             <div class="card-content">
@@ -148,32 +153,32 @@
               </div>
             </div>
           </div> -->
-            <% if(!id){ %>
-            <div class="content-block">
+            <!-- <% if(!id){ %> -->
+            <div class="content-block create-content">
               <div class="row">
                 <div class="col-100"><a href="#" class="button button-big button-fill button-danger sure">确定</a></div>
               </div>
             </div>
-            <%} else {%>
-            <div class="content-block">
+            <!-- <%} else {%> -->
+            <div class="content-block update-content">
               <div class="row">
                 <div class="col-50"><a href="#" class="button button-big button-fill button-success update">更改</a></div>
                 <div class="col-50"><a href="#" class="button button-big button-fill button-danger delete">删除</a></div>
               </div>
             </div>
-            <%}%>
+            <!-- <%}%> -->
         </div>
       </form>
     </div>
 
-    <script type='text/javascript' src='//g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
-    <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm.min.js' charset='utf-8'></script>
-    <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm-extend.min.js' charset='utf-8'></script>
-    <script src="/js/public.js"></script>
+    <script type='text/javascript' src='http://g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
+    <script type='text/javascript' src='http://g.alicdn.com/msui/sm/0.6.2/js/sm.min.js' charset='utf-8'></script>
+    <script type='text/javascript' src='http://g.alicdn.com/msui/sm/0.6.2/js/sm-extend.min.js' charset='utf-8'></script>
+    <script src="./js/public.js"></script>
     <!-- 默认必须要执行$.init(),实际业务里一般不会在HTML文档里执行，通常是在业务页面代码的最后执行 -->
     <script>
       $.init()
-      var id = "<%= id %>";
+      var id = '';
 
       function preview(file) {
         console.log($(file));
@@ -182,7 +187,7 @@
           if (file.files && file.files[0]) {
               var reader = new FileReader();
               reader.onload = function(evt) {
-                  // $(that).parent().find(".addpho").attr("src",evt.target.result);
+                  http:// $(that).parent().find(".addpho").attr("src",evt.target.result);
                   $(".item-content").attr("style","background: url("+evt.target.result+") center center / cover no-repeat;")
                   $(".photo-content").attr("data-src",evt.target.result);
               }
@@ -192,6 +197,14 @@
       $(".addpho").on("click",function(){
         $("#photo").click();
       })
+
+
+      var username = localStorage.username;
+      console.log(username)
+
+      if(username){
+        $("#userId").val(username)
+      }
 
       $(".sure,.update").on("click",function(){
 
@@ -215,7 +228,7 @@
         }
 
         if(id){
-          //更改
+          http://更改
           $.showPreloader("正在更改");
 
           var data  = {
@@ -260,7 +273,7 @@
            }
        })
       })
-      // alert(id)
+      http:// alert(id)
 
       function getDetail(){
         

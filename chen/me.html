@@ -85,6 +85,10 @@
       color: red;
       border-color: red;
     }
+
+    .user-login{
+      display: none;
+    }
   </style>
   <body>
     <div class="page">
@@ -114,26 +118,27 @@
 
             <div class="login-tip-content">
 
-              <div class="login-tip click-item" data-href="./login.html">
+              <div class="login-tip click-item user-no-login" data-href="./login.html">
                 点击登录
               </div>
-              <div class="">
+              <div class="user-no-login">
                 登录后可查看收藏记录
               </div>
 
-              <!-- <div class="login-tip">
-              </div> -->
+              <div class="login-tip user-login">
+
+              </div>
 
             </div>
 
 
-            <div class="login-btn click-item" data-href="./login.html">
+            <div class="login-btn click-item user-no-login" data-href="./login.html">
               登录
             </div>
 
-            <!-- <div class="login-btn quit">
+            <div class="login-btn quit user-login">
               退出
-            </div> -->
+            </div>
 
           </div>
 
@@ -142,7 +147,7 @@
           </div>
         </div>
  
-        <div class="list-block">
+        <div class="list-block user-login">
           <ul>
             <li class="item-content item-link" data-href="./upload.html">
               <div class="item-media"><i class="icon icon-f7"></i></div>
@@ -186,20 +191,31 @@
         window.location.href = href
       })
 
+      var username = localStorage.username;
+      console.log(username)
+
+      if(username){
+        $(".login-tip.user-login").text(username);
+        $(".user-no-login").hide();
+        $(".user-login").show();
+      }
+
       $(".quit").on("click",function () {
-          $.ajax({
-              type: "GET",
-              url: 'v1/user/quit',
-              data :  {},
-              dataType: "json",
-              success : function(result) {
-                  console.log(result);
-                  window.location.reload();
-              },
-              error:function(error) {
-                  console.log(error);
-              }
-          })
+        localStorage.username = ''
+        window.location.reload();
+          // $.ajax({
+          //     type: "GET",
+          //     url: 'v1/user/quit',
+          //     data :  {},
+          //     dataType: "json",
+          //     success : function(result) {
+          //         console.log(result);
+          //         window.location.reload();
+          //     },
+          //     error:function(error) {
+          //         console.log(error);
+          //     }
+          // })
       })
     </script>
 

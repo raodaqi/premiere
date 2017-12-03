@@ -179,9 +179,17 @@ router.delete('/movie/:id', function(req, res, next) {
 });
 
 router.put('/movie/:id',multipartMiddleware,function(req, res, next) {
-  var user = req.currentUser;
-  console.log(user.get("username"))
-  var userId = user.get("username");
+  // var user = req.currentUser;
+  // console.log(user.get("username"))
+  // var userId = user.get("username");
+
+  var userId = req.body.userId
+
+  if(userId){
+    var user = req.currentUser;
+    console.log(user.get("username"))
+    var userId = user.get("username");
+  }
 
   var title = req.body.title
   var recommend = req.body.recommend
@@ -209,9 +217,17 @@ router.put('/movie/:id',multipartMiddleware,function(req, res, next) {
 })
 
 router.get('/user/movie', function(req, res, next) {
-  var user = req.currentUser;
-  console.log(user.get("username"))
-  var username = user.get("username");
+  // var user = req.currentUser;
+  // console.log(user.get("username"))
+  // var username = user.get("username");
+
+  var username = req.query.userId
+
+  if(username){
+    var user = req.currentUser;
+    console.log(user.get("username"))
+    var username = user.get("username");
+  }
 
   var query = new AV.Query(Movies);
   query.equalTo("userId",username);
@@ -351,9 +367,14 @@ router.post('/movie/add',multipartMiddleware,function(req, res, next) {
   var photo = req.files.photo;
   console.log(req)
   var url;
-  var user = req.currentUser;
-  console.log(user.get("username"))
-  var userId = user.get("username");
+
+  var userId = req.body.userId
+
+  if(userId){
+    var user = req.currentUser;
+    console.log(user.get("username"))
+    var userId = user.get("username");
+  }
 
   var title = req.body.title
   var recommend = req.body.recommend
