@@ -51,11 +51,6 @@ app.use(cookieParser());
 
 app.get('/', function(req, res) {
   var user = req.currentUser;
-  // console.log(user)
-  // if(!user){
-  //   res.redirect("/login")
-  //   return;
-  // }
   res.render('index', { user: user});
 });
 app.get('/like', function(req, res) {
@@ -85,9 +80,11 @@ app.get('/signup', function(req, res) {
   res.render('signup', { currentTime: new Date() });
 });
 
+
 // 可以将一类的路由单独保存在一个文件中
 app.use('/', require('./routes/index'));
 app.use('/v1', require('./routes/v1'));
+app.use('/wang', require('./routes/wang'));
 
 app.use(function(req, res, next) {
   // 如果任何一个路由都没有返回响应，则抛出一个 404 异常给后续的异常处理器
