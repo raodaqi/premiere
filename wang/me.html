@@ -86,14 +86,14 @@
       border-color: red;
     }
 
-    .user-login{
+    .user-login,.user-login-li{
       display: none;
     }
   </style>
   <body>
     <div class="page">
       <header class="bar bar-nav">
-          <h1 class='title'>个人中心</h1>
+          <h1 class='title'>我</h1>
       </header>
 
       <nav class="bar bar-tab">
@@ -136,9 +136,9 @@
               登录
             </div>
 
-            <div class="login-btn quit user-login">
+            <!-- <div class="login-btn quit user-login">
               退出
-            </div>
+            </div> -->
 
           </div>
 
@@ -147,25 +147,34 @@
           </div>
         </div>
  
-        <div class="list-block user-login">
+        <div class="list-block">
           <ul>
-            <li class="item-content item-link" data-href="./upload.html">
-              <div class="item-media"><i class="icon icon-f7"></i></div>
-              <div class="item-inner">
-                <div class="item-title">上传电影</div>
-              </div>
-            </li>
+            <div class="user-login">
+              <li class="item-content item-link" data-href="./upload.html">
+                <div class="item-media"><i class="icon icon-f7"></i></div>
+                <div class="item-inner">
+                  <div class="item-title">上传电影</div>
+                </div>
+              </li>
 
-            <li class="item-content item-link" data-href="./uploaded.html">
+              <li class="item-content item-link" data-href="./uploaded.html">
+                <div class="item-media"><i class="icon icon-f7"></i></div>
+                <div class="item-inner">
+                  <div class="item-title">已上传电影</div>
+                </div>
+              </li>
+            </div>
+
+            <li class="item-content item-link" data-href="http://cn.mikecrm.com/H7kwES0">
               <div class="item-media"><i class="icon icon-f7"></i></div>
               <div class="item-inner">
-                <div class="item-title">已上传电影</div>
+                <div class="item-title">意见反馈</div>
               </div>
             </li>
           </ul>
         </div>
 
-        <div class="list-block">
+        <!-- <div class="list-block">
           <ul>
             <li class="item-content item-link" data-href="http:http://cn.mikecrm.com/H7kwES0">
               <div class="item-media"><i class="icon icon-f7"></i></div>
@@ -174,6 +183,12 @@
               </div>
             </li>
           </ul>
+        </div> -->
+
+        <div class="content-block create-content quit user-login">
+          <div class="row">
+            <div class="col-100"><a href="#" class="button button-big button-fill button-danger sure">退出</a></div>
+          </div>
         </div>
       </div>
     </div>
