@@ -10,31 +10,82 @@
     <link rel="stylesheet" href="./css/common.css">
   </head>
   <style>
+    .page{
+      background: url("http://www.qqoi.cn/img_star/31845051.jpeg") center center / cover no-repeat;
+    }
+
+    .content{
+      background:rgba(0,0,0,0.3); 
+      height: 100%;
+    }
+
+    .user-content{
+      background:none; 
+    }
+
+    .login-tip-content,.login-tip{
+      color: white;
+    }
+
+    .list-block ul{
+      background:none;
+      color: white; 
+    }
+
+    .page{
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      top: 0;
+      bottom:0;
+    }
+
+    .form-title{
+      color: white;
+    }
+
+    .ui-form{
+      background:none;
+    }
+
+    .ui-form input{
+      color: white;
+    }
+
+    .ui-form-item-show label{
+      color: white; 
+    }
+
+    .signup{
+      color: #cecece
+    }
   </style>
   <body>
-    <div class="content">
-      <div class="form-title">
-        注册
-      </div>
-      <div class="ui-form ui-border-t">
-        <form action="#">
-            <div class="ui-form-item ui-form-item-show ui-border-b">
-                <label for="#">邮箱</label>
-                <input type="text" value="" id="email" placeholder="请输入邮箱">
-            </div>
-            <div class="ui-form-item ui-form-item-show ui-border-b">
-                <label for="#">密码</label>
-                <input type="text" value="" id="password" placeholder="请输入密码">
-            </div>
-        </form>
-        </form>
-      </div>
-
-      <div class="send-content mt-30">
-        <button class="ui-btn-lg ui-btn-primary" id="signup">
+    <div class="page">
+      <div class="content">
+        <div class="form-title">
           注册
-        </button>
-        <a class="signup" href="./login.html">立即登录</a>
+        </div>
+        <div class="ui-form ui-border-t">
+          <form action="#">
+              <div class="ui-form-item ui-form-item-show ui-border-b">
+                  <label for="#">邮箱</label>
+                  <input type="text" value="" id="email" placeholder="请输入邮箱">
+              </div>
+              <div class="ui-form-item ui-form-item-show ui-border-b">
+                  <label for="#">密码</label>
+                  <input type="text" value="" id="password" placeholder="请输入密码">
+              </div>
+          </form>
+          </form>
+        </div>
+
+        <div class="send-content mt-30">
+          <button class="ui-btn-lg ui-btn-primary" id="signup">
+            注册
+          </button>
+          <a class="signup" href="./login.html">立即登录</a>
+        </div>
       </div>
     </div>
   </body>

@@ -99,6 +99,15 @@
     .card-content-inner input{
       border:0;
     }
+
+    .item{
+      height: 300px;
+    }
+
+    .dialog{
+      line-height: 300px;
+      font-size: 16px;
+    }
   </style>
   <body>
     <div class="page">
@@ -114,7 +123,7 @@
         <!-- 这里是页面内容区 -->
         <form action="" id="addForm" enctype="multipart/form-data">
           <input type="file"  class="form-control" name="photo" id="photo" placeholder="请添加图片" onchange="preview(this)" style="display:none">
-          <div class="content-block-title">图片</div>
+
           <div class="card">
             <div class="card-content">
               <div class="item">
@@ -129,7 +138,7 @@
             </div>
           </div>
 
-          <div class="content-block-title">标题</div>
+          <!-- <div class="content-block-title">标题</div> -->
           <div class="card">
             <div class="card-content">
               <div class="card-content-inner">
@@ -138,7 +147,7 @@
             </div>
           </div>
 
-          <div class="content-block-title">推荐</div>
+          <!-- <div class="content-block-title">推荐</div> -->
           <div class="card">
             <div class="card-content">
               <div class="card-content-inner">
