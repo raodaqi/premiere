@@ -238,7 +238,7 @@
 
           $.ajax({
              type: "PUT",
-             url: 'v1/movie/'+id,
+             url: 'http://premiere.leanapp.cn/v1/movie/'+id,
              cache: false,
              data: data,
              success : function(result) {
@@ -257,7 +257,7 @@
         $.showPreloader("正在上传");
         $.ajax({
            type: "POST",
-           url: 'v1/movie/add',
+           url: 'http://premiere.leanapp.cn/v1/movie/add',
            cache: false,
            data: new FormData($('#addForm')[0]),
            processData: false,
@@ -278,7 +278,7 @@
       function getDetail(){
         
         $.showPreloader("正在加载");
-        var url = "/v1/movie/"+id;
+        var url = "http://premiere.leanapp.cn/v1/movie/"+id;
         var type = "GET";
         var data = {
         }
@@ -306,7 +306,7 @@
         $.confirm('真的要删除吗?',
           function () {
             $.showPreloader("正在删除");
-            var url = "/v1/movie/"+id;
+            var url = "http://premiere.leanapp.cn/v1/movie/"+id;
             var type = "DELETE";
             var data = {
             }

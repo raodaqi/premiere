@@ -185,7 +185,7 @@ router.put('/movie/:id',multipartMiddleware,function(req, res, next) {
 
   var userId = req.body.userId
 
-  if(userId){
+  if(!userId){
     var user = req.currentUser;
     console.log(user.get("username"))
     var userId = user.get("username");
@@ -223,7 +223,7 @@ router.get('/user/movie', function(req, res, next) {
 
   var username = req.query.userId
 
-  if(username){
+  if(!username){
     var user = req.currentUser;
     console.log(user.get("username"))
     var username = user.get("username");
@@ -370,7 +370,7 @@ router.post('/movie/add',multipartMiddleware,function(req, res, next) {
 
   var userId = req.body.userId
 
-  if(userId){
+  if(!userId){
     var user = req.currentUser;
     console.log(user.get("username"))
     var userId = user.get("username");
