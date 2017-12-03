@@ -178,7 +178,14 @@
     <!-- 默认必须要执行$.init(),实际业务里一般不会在HTML文档里执行，通常是在业务页面代码的最后执行 -->
     <script>
       $.init()
-      var id = '';
+      function getQueryString(name) { 
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i"); 
+        var r = window.location.search.substr(1).match(reg); 
+        if (r != null) return unescape(r[2]); return null; 
+      }
+      var id = getQueryString("id"); 
+
+      // console.log(getQueryString("id"))
 
       function preview(file) {
         console.log($(file));
@@ -244,7 +251,10 @@
              success : function(result) {
                 $.hidePreloader();
                 $.toast("更改成功");
-                window.location.reload()
+                // window.location.reload()
+                setTimeout(function(){
+                  window.location.reload()
+                },500)
              },
              error:function(error){
                 $.hidePreloader();
@@ -265,7 +275,10 @@
            success : function(result) {
               $.hidePreloader();
               $.toast("上传成功");
-              window.location.reload()
+
+              setTimeout(function(){
+                window.location.reload()
+              },500)
            },
            error:function(error){
               $.hidePreloader();
@@ -300,6 +313,8 @@
 
       if(id){
         getDetail()
+        $(".update-content").show()
+        $(".create-content").hide()
       }
 
       $(".delete").on("click",function(){
@@ -314,7 +329,11 @@
               success:function(result){
                 console.log(result);
                 $.toast("删除成功");
-                window.location.href = "/"
+                // window.location.href = "/"
+                setTimeout(function(){
+                  // window.location.reload()
+                  window.location.href = "./index.html"
+                },500)
               },
               error:function(error){
                 $.toast("删除失败");

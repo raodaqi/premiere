@@ -57,7 +57,7 @@
         }
 
         console.log(email)
-        var url = "/v1/user";
+        var url = "http://premiere.leanapp.cn/v1/user";
         var type = "POST";
 
         var data = {
@@ -74,8 +74,12 @@
             console.log(result);
             var data = result.data;
               e1.loading("hide");
-              tips("登录成功")
-              window.location.href = "./me.html";
+              tips("注册成功")
+              // window.location.href = "./me.html";
+              localStorage.username=data.username;
+              setTimeout(function(){
+                window.location.href = "./me.html";
+              },500)
             },
           error:function(error){
             e1.loading("hide");

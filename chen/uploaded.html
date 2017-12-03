@@ -81,16 +81,20 @@
     <script type='text/javascript' src='http://g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
     <script type='text/javascript' src='http://g.alicdn.com/msui/sm/0.6.2/js/sm.min.js' charset='utf-8'></script>
     <script type='text/javascript' src='http://g.alicdn.com/msui/sm/0.6.2/js/sm-extend.min.js' charset='utf-8'></script>
-    <script src="/js/public.js"></script>
+    <script src="./js/public.js"></script>
 
     <!-- 默认必须要执行$.init(),实际业务里一般不会在HTML文档里执行，通常是在业务页面代码的最后执行 -->
     <script>
       $.init()
       function getList(){
         $.pullToRefreshTrigger('.pull-to-refresh-content')
-        var url = "/v1/user/movie";
+        var url = "http://premiere.leanapp.cn/v1/user/movie";
         var type = "GET";
+        var username = localStorage.username;
+        console.log(username)
+
         var data = {
+          userId:username
         }
         sendQuery(url,type,data,{
           success:function(result){
@@ -117,15 +121,15 @@
       }
       getList();
 
-      http:// 添加'refresh'监听器
+      // 添加'refresh'监听器
       $(document).on('refresh', '.pull-to-refresh-content',function(e) {
-          http:// 模拟2s的加载过程
+          // 模拟2s的加载过程
           getList();
       });
 
       $(document).on("click","li",function(){
         var id = $(this).attr("data-id");
-        window.location.href="/upload?id="+id
+        window.location.href="./upload.html?id="+id
       })
     </script>
 
