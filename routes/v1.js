@@ -118,6 +118,8 @@ router.get('/movie', function(req, res, next) {
   var query = new AV.Query(Movies);
   query.equalTo("status",1)
 
+  query.descending('createdAt');
+
   query.find().then(function(results) {
     var result = {
       code : 200,
@@ -142,6 +144,8 @@ router.get('/movie', function(req, res, next) {
 
 router.get('/movie/:id', function(req, res, next) {
   var id = req.params.id;
+
+  query.descending('createdAt');
 
   var query = new AV.Query(Movies);
   query.get(id).then(function(result){
