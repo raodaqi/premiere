@@ -170,9 +170,9 @@
       success: function(result) {
         console.log(result);
         var data = result.data;
-        let movieList = [];
+        var movieList = [];
         var movie = '';
-        for (let i = 0; i < data.length; i++) {
+        for (var i = 0; i < data.length; i++) {
           movie += '<div class="item"><div class="item-content" style="background: url(' + data[i].url + ') center center / cover no-repeat;"><div class="desc-content"><div class="desc-title">' + data[i].title + '</div><div class="desc-text">' + data[i].recommend + '</div></div></div></div>';
         }
         $(".item-content").empty().append(movie)
