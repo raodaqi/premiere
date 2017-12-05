@@ -133,9 +133,9 @@
               <div class="item">
                 <div class="item-content photo-content" data-src="" style="background: url(http://pic7.huanxi.com/8a9eb00f6000c071016000dd38f400cf.jpg) center center / cover no-repeat;">
                   <!-- <% if(!id){ %> -->
-                  <div class="dialog addpho">
-                    点击上传图片
-                  </div>
+                 <div class="dialog addpho">
+                   点击上传图片
+                 </div>
                   <!-- <% } %> -->
                 </div>
               </div>
@@ -204,6 +204,10 @@
 
       // console.log(getQueryString("id"))
 
+      if(id){
+        $(".addpho").hide()
+      }
+      
       function preview(file) {
         console.log($(file));
         var that = file;
@@ -258,7 +262,8 @@
 
           var data  = {
             title : title,
-            recommend:recommend
+            recommend:recommend,
+            userId:username
           }
 
           $.ajax({

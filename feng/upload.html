@@ -190,6 +190,11 @@
       var id = getQueryString("id"); 
 
       // console.log(getQueryString("id"))
+      // 
+      // 
+      if(id){
+        $(".addpho").hide()
+      }
 
       function preview(file) {
         console.log($(file));
@@ -206,6 +211,7 @@
           }
       }
       $(".addpho").on("click",function(){
+        console.log("123")
         $("#photo").click();
       })
 
@@ -244,7 +250,8 @@
 
           var data  = {
             title : title,
-            recommend:recommend
+            recommend:recommend,
+            userId:username
           }
 
           $.ajax({
