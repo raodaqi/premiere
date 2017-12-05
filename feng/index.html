@@ -185,9 +185,8 @@
   }
   getList();
 
-  http: // 添加'refresh'监听器
+  // 添加'refresh'监听器
     $(document).on('refresh', '.pull-to-refresh-content', function(e) {
-      http: // 模拟2s的加载过程
         getList();
     });
 
