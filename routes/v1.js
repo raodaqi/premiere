@@ -178,7 +178,7 @@ router.delete('/movie/:id', function(req, res, next) {
   }).catch(next);
 });
 
-router.put('/movie/:id',multipartMiddleware,function(req, res, next) {
+router.put('/movie/:id',function(req, res, next) {
   // var user = req.currentUser;
   // console.log(user.get("username"))
   // var userId = user.get("username");

@@ -176,9 +176,9 @@
           success:function(result){
             console.log(result);
             var data = result.data;
-            let movieList = [];
+            var movieList = [];
             var movie = '';
-            for(let i = 0; i < data.length; i++){
+            for(var i = 0; i < data.length; i++){
 
               // movie += '<li data-id="'+data[i].objectId+'"><div class="item-content"><div class="item-media"><img src="'+data[i].url+'" style="width: 2.2rem;"></div><div class="item-inner"><div class="item-title-row"><div class="item-title">'+data[i].title+'</div></div><div class="item-subtitle">'+data[i].recommend+'</div></div></div></li>';
               movie += '<div class="item" data-id="'+data[i].objectId+'"><div class="item-content" style="background: url('+data[i].url+') center center / cover no-repeat;"><div class="desc-content"><div class="desc-title">'+data[i].title+'</div><div class="desc-text">'+data[i].recommend+'</div></div></div></div>';
